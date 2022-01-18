@@ -27,6 +27,7 @@
         "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
+        "lucide-vue": "^0.16.25",
         "vue-router": "^3.5.3"
     }
 }

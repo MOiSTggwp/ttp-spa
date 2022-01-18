@@ -19,5 +19,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::get('/get', 'GetController');
+    Route::get('/main/resource', 'Main\ResourceController');
+
+    Route::get('/users/{id}', 'Users\ShowController');
+    Route::patch('/users/{id}/edit', 'Profile\Edit\EditController');
+//    Route::patch('/users/p/{id}/edit', 'Profile\ShowController');
 });
