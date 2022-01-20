@@ -61,6 +61,11 @@ class EditController extends Controller
             $profile->img_url = url('/storage/' . $file_path);
         }
 
+        if(\Arr::has($data, 'description'))
+        $profile->description = $data['description'];
+
+        $profile->save();
+
         if(\Arr::has($data, 'games')) {
             $user->games()->sync($data['games']);
         } else {
@@ -71,8 +76,6 @@ class EditController extends Controller
             $user->name = $data['name'];
             $user->save();
         }
-
-        $profile->save();
 
         return response(['done' => [['Данные обновлены.']]], 200);
     }

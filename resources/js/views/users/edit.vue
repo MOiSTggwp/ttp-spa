@@ -9,10 +9,10 @@
 
                 <input id="file" hidden ref="file" type="file" @change="setFile">
 
-                <div class="shadow-sm w-full col-span-1 sm:col-span-5 md:col-span-2 lg:col-span-3 xl:col-span-2 2xl:col-span-1 flex justify-center">
-                    <label class="w-[280px] sm:w-full h-[240px] border-2 border-Dark-m rounded-md relative cursor-pointer group" for="file">
+                <div class="w-full col-span-1 sm:col-span-5 md:col-span-2 lg:col-span-3 xl:col-span-2 2xl:col-span-1 flex justify-center">
+                    <label class="w-[280px] sm:w-full h-[240px] shadow-md shadow-Dark/[98%] bg-Dark rounded-md relative cursor-pointer group" for="file">
                         <Camera class="group-hover:w-12 group-hover:h-12 group-hover:opacity-60 transition-all w-10 h-10 text-Dark-l absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"></Camera>
-                        <img v-if="show_img" class="w-full h-full object-cover" :src="show_img" alt="">
+                        <img v-if="show_img" class="w-full h-full object-cover rounded-md" :src="show_img" alt="">
                         <span v-else class="block w-full h-full bg-Dark-m/30 flex justify-center items-center">
                             <Camera class="group-hover:w-12 group-hover:h-12 w-10 h-10 text-Dark-l"></Camera>
                         </span>
@@ -23,17 +23,35 @@
                     </label>
                 </div>
 
-                <div class="shadow-sm w-full col-span-1 sm:col-span-6 md:col-span-3 lg:col-span-7 xl:col-span-7 2xl:col-span-4 flex justify-center">
-                    <div class="w-full h-[240px] border-2 border-Dark-m rounded-md flex flex-col items-center lg:items-start py-6 lg:px-4 sm:px-2 space-y-8">
-                        <Input class="w-[280px]" @res="resName" :arr="{ value: user.name, type: 'text', id: 'name', text: 'Имя', error: null}">
+                <div class="shadow-md shadow-Dark/[98%] bg-Dark rounded-md w-full col-span-1 sm:col-span-6 md:col-span-3 lg:col-span-7 xl:col-span-7 2xl:col-span-4 flex justify-center">
+                    <div class="w-full h-[240px] rounded-md flex flex-col items-center lg:items-start py-6 lg:px-4 sm:px-2 space-y-8">
+                        <Input
+                            class="w-[280px]"
+                            @res="resName"
+                            :arr="{
+                                value: user.name,
+                                type: 'text',
+                                id: 'name',
+                                text: 'Имя',
+                                error: errors.name
+                            }">
                             <User></User>
                         </Input>
 
-                        <Input class="w-[280px]" @res="resDate" :arr="{ value: profile.date, type: 'date', id: 'date', text: 'Дата Рождения', error: null}">
+                        <Input
+                            class="w-[280px]"
+                            @res="resDate"
+                            :arr="{
+                                value: profile.date,
+                                type: 'date',
+                                id: 'date',
+                                text: 'Дата Рождения',
+                                error: errors.date
+                            }">
                             <Calendar></Calendar>
                         </Input>
 
-                        <SelectNew
+                        <Select
                             class="w-[280px]"
                             @res="resFloor"
                             :arr="{
@@ -44,43 +62,23 @@
                                 max: null,
                                 id: 'floor',
                                 text: 'Пол',
-                                error: null
+                                error: errors.floor
                             }">
                             <CircleSlashed></CircleSlashed>
-                        </SelectNew>
+                        </Select>
                     </div>
                 </div>
 
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-11 md:grid-cols-5 lg:grid-cols-10 xl:grid-cols-9 2xl:grid-cols-5 gap-6">
-                <div class="shadow-sm col-span-1 sm:col-span-5 md:col-span-2 lg:col-span-3 xl:col-span-2 2xl:col-span-1 flex flex-col items-start w-full border-2 border-Dark-m rounded-md py-4 px-2">
-                    <Label>Подключить</Label>
-
-                    <div class="grid grid-cols-2 mx-auto mt-4 gap-3">
-                        <MenuButton :arr="{link: '', text: 'Вконтакте'}">
-                            <div></div>
-                        </MenuButton>
-
-                        <MenuButton :arr="{link: '', text: 'Telegram'}">
-
-                        </MenuButton>
-
-                        <MenuButton :arr="{link: '', text: 'Discord'}">
-
-                        </MenuButton>
-
-                        <MenuButton :arr="{link: '', text: 'Steam'}">
-
-                        </MenuButton>
-                    </div>
-                </div>
-
-                <div class="shadow-sm col-span-1 row-start-1 sm:col-span-6 md:col-span-3 lg:col-span-7 xl:col-span-7 2xl:col-span-4 flex flex-col items-start w-full border-2 border-Dark-m rounded-md py-4 px-2">
-                    <SelectNew
-                        class="w-[280px]"
-                        @res="resGames"
-                        :arr="{
+            <div class="grid grid-cols-1 sm:grid-cols-11 md:grid-cols-10 2xl:grid-cols-11 gap-6">
+                <div class="shadow-md shadow-Dark/[98%] bg-Dark rounded-md
+                 col-span-1 sm:col-span-6 md:col-span-5 2xl:col-span-3
+                 w-full flex justify-center rounded-md py-7 px-2">
+                        <Select
+                            class="w-[280px]"
+                            @res="resGames"
+                            :arr="{
                                 value: profile.games,
                                 array: allGames,
                                 radio: false,
@@ -88,10 +86,51 @@
                                 max: 4,
                                 id: 'games',
                                 text: 'Любимые игры',
-                                error: null
+                                error: errors.games
                             }">
-                        <Gamepad2></Gamepad2>
-                    </SelectNew>
+                            <Gamepad2></Gamepad2>
+                        </Select>
+                </div>
+
+                <div class="shadow-md shadow-Dark/[98%] bg-Dark rounded-md
+                col-span-1 row-start-1 sm:col-span-full 2xl:col-span-5 2xl:col-start-4
+                w-full rounded-md py-7 px-2">
+                        <TextareaE
+                            @res="resDesc"
+                            class="min-h-[200px] sm:min-h-[100px]"
+                            :arr="{
+                            value: profile.description,
+                            max: 250,
+                            id: 'description',
+                            text: 'Дополнительно',
+                            error: errors.description
+                        }">
+                            <Gamepad2></Gamepad2>
+                        </TextareaE>
+                </div>
+
+                <div class="shadow-md shadow-Dark/[98%] bg-Dark rounded-md
+                col-span-1 row-start-2 sm:col-span-5 2xl:col-span-3 2xl:row-start-1
+                flex flex-col items-start w-full rounded-md py-4 px-2">
+                    <Label>Подключить</Label>
+
+                    <div class="grid grid-cols-2 mx-auto mt-4 gap-3">
+                        <MenuButton :arr="{link: '', text: 'Вконтакте'}">
+                            <Gamepad2></Gamepad2>
+                        </MenuButton>
+
+                        <MenuButton :arr="{link: '', text: 'Telegram'}">
+                            <Gamepad2></Gamepad2>
+                        </MenuButton>
+
+                        <MenuButton :arr="{link: '', text: 'Discord'}">
+                            <Gamepad2></Gamepad2>
+                        </MenuButton>
+
+                        <MenuButton :arr="{link: '', text: 'Steam'}">
+                            <Gamepad2></Gamepad2>
+                        </MenuButton>
+                    </div>
                 </div>
             </div>
 
@@ -105,10 +144,11 @@
 
 <script>
 import Input from '../../elements/Input';
-import SelectNew from '../../elements/SelectNew';
+import Select from '../../elements/Select';
 import Range from '../../elements/Range';
 import Alert from '../../elements/Alert';
 import Label from '../../elements/Label';
+import TextareaE from '../../elements/Textarea';
 import MenuButton from '../../elements/menu/Button';
 import {Camera, User, Calendar, CircleSlashed, Gamepad2 } from 'lucide-vue';
 
@@ -121,12 +161,13 @@ export default {
         Calendar,
         CircleSlashed,
         Input,
-        SelectNew,
+        Select,
         Range,
         Label,
         Alert,
         Gamepad2,
         MenuButton,
+        TextareaE
     },
 
     data() {
@@ -149,17 +190,12 @@ export default {
             date: null,
             floor: null,
             games: [],
+            description: '',
         }
     },
 
     mounted() {
         this.auth();
-    },
-
-    updated() {
-        if(this.type !== '') {
-            this.alertClose();
-        }
     },
 
     methods: {
@@ -201,6 +237,7 @@ export default {
                 data.append('games[]', i);
             });
 
+            data.append('description', this.description);
 
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post(`/api/users/${this.user.id}/edit`, data)
@@ -208,7 +245,7 @@ export default {
                         this.errors = res.data.done;
                         this.type = 'done';
                         this.profile = null;
-                        this.auth();
+                        this.$router.push({name: 'users.show', params: {id: this.user.id}});
                     }).catch(err => {
                         this.errors = err.response.data.errors;
                         this.type = 'error';
@@ -255,6 +292,10 @@ export default {
 
         resGames(r) {
             this.games = r[0];
+        },
+
+        resDesc(r) {
+            this.description = r[0];
         },
 
         alertClose() {

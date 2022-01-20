@@ -1,5 +1,5 @@
 <template>
-    <div class="absolute z-50 inset-y-0 left-0 -translate-x-[99%] transition-all duration-300 w-[300px] bg-Dark"
+    <div class="fixed z-50 inset-y-0 left-0 -translate-x-[99%] transition-all duration-300 w-[300px] bg-Dark"
          :class="{'-translate-x-0': open}">
         <div class="text-3xl text-Light-l font-bold flex justify-center items-center p-3">
             > Team<span class="text-Info">ToPlay <</span>
