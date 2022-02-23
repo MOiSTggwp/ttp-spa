@@ -4,7 +4,7 @@ namespace App\Http\Resources\Games;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class IndexResource extends JsonResource
+class GamesResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

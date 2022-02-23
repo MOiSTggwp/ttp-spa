@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +24,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 
     Route::get('/users/{id}', 'Users\ShowController');
     Route::patch('/users/{id}/edit', 'Profile\Edit\EditController');
+
 //    Route::patch('/users/p/{id}/edit', 'Profile\ShowController');
 });

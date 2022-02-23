@@ -18,7 +18,7 @@
                         </span>
                         <span class="text-Dark-l/80 select-none flex flex-col justify-end items-center bg-Dark/60 p-1 w-full h-full text-lg font-bold mt-7 absolute bottom-0 left-0">
                             <span>280 x 240</span>
-                            <span>Макс. размер (10МБ)</span>
+                            <span>Макс. размер (1МБ)</span>
                         </span>
                     </label>
                 </div>
@@ -115,26 +115,24 @@
                     <Label>Подключить</Label>
 
                     <div class="grid grid-cols-2 mx-auto mt-4 gap-3">
-                        <MenuButton :arr="{link: '', text: 'Вконтакте'}">
+                        <ContactBtn :arr="{value: hasContact('vk'), has: true, link: '/auth/discord', name: 'VK'}">
                             <Gamepad2></Gamepad2>
-                        </MenuButton>
+                        </ContactBtn>
 
-                        <MenuButton :arr="{link: '', text: 'Telegram'}">
+                        <ContactBtn :arr="{value: hasContact('telegram'), has: true, link: '/auth/discord', name: 'Telegram'}">
                             <Gamepad2></Gamepad2>
-                        </MenuButton>
+                        </ContactBtn>
 
-                        <MenuButton :arr="{link: '', text: 'Discord'}">
+                        <ContactBtn :arr="{value: hasContact('discord'), has: true, link: '/auth/discord', name: 'Discord'}">
                             <Gamepad2></Gamepad2>
-                        </MenuButton>
+                        </ContactBtn>
 
-                        <MenuButton :arr="{link: '', text: 'Steam'}">
+                        <ContactBtn :arr="{value: hasContact('steam'), has: true, link: '/auth/discord', name: 'Steam'}">
                             <Gamepad2></Gamepad2>
-                        </MenuButton>
+                        </ContactBtn>
                     </div>
                 </div>
             </div>
-
-
 
             <button @click.prevent="edit" type="submit">test</button>
 
@@ -148,6 +146,7 @@ import Select from '../../elements/Select';
 import Range from '../../elements/Range';
 import Alert from '../../elements/Alert';
 import Label from '../../elements/Label';
+import ContactBtn from '../../elements/ContactButton';
 import TextareaE from '../../elements/Textarea';
 import MenuButton from '../../elements/menu/Button';
 import {Camera, User, Calendar, CircleSlashed, Gamepad2 } from 'lucide-vue';
@@ -167,7 +166,8 @@ export default {
         Alert,
         Gamepad2,
         MenuButton,
-        TextareaE
+        TextareaE,
+        ContactBtn
     },
 
     data() {
@@ -301,6 +301,16 @@ export default {
         alertClose() {
             this.type = '';
             this.errors = [];
+        },
+
+        hasContact(contact) {
+            if(this.profile.contacts.length > 0) {
+                return this.profile.contacts.filter((r) => {
+                    return r.name === contact;
+                }).length > 0;
+            } else {
+                return false;
+            }
         },
     },
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Main;
 
+use App\Http\Resources\Games\GamesResource;
 use App\Http\Resources\Profile\ShowResource;
 use App\Models\Game;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,7 +24,7 @@ class IndexResource extends JsonResource
                 'email' => $this->email,
                 'profile' => ShowResource::make($this->profile),
             ],
-            'games' => \App\Http\Resources\Games\IndexResource::collection(Game::all()->sortBy('name')),
+            'games' => GamesResource::collection(Game::all()->sortBy('name')),
         ];
     }
 }

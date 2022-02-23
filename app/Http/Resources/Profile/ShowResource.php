@@ -2,7 +2,8 @@
 
 namespace App\Http\Resources\Profile;
 
-use App\Http\Resources\Games\IndexResource;
+use App\Http\Resources\Contacts\ContactsResource;
+use App\Http\Resources\Games\GamesResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -34,6 +35,9 @@ class ShowResource extends JsonResource
             $age = $year.' '.$year_text;
         }
 
+        $games = GamesResource::collection(User::find($this->user_id)->games);
+        $contacts = ContactsResource::collection(User::find($this->user_id)->contacts);
+
 //        User::find($this->user_id)->games
         return [
             'img_url' => $this->img_url,
@@ -43,7 +47,8 @@ class ShowResource extends JsonResource
             'floor' => $this->floor,
             'floor_text' => $this->floor === 1 ? 'Мужской' : 'Женский',
             'description' => $this->description,
-            'games' => IndexResource::collection(User::find($this->user_id)->games),
+            'games' => $games,
+            'contacts' => $contacts,
         ];
     }
 }

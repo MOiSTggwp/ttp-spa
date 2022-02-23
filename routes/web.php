@@ -15,4 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 Auth::routes();
 
+Route::get('/auth/discord', 'Auth\Discord\IndexController')->middleware('auth:web');
+Route::get('/auth/discord/callback', 'Auth\Discord\CallbackController')->middleware('auth:web');
+
 Route::get('{page}', 'MainController')->where('page', '.*');

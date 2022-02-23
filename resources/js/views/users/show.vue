@@ -84,11 +84,16 @@
                 <div class="w-full h-full min-h-[190px] flex flex-col justify-center items-center shadow-Dark/[98%] shadow-md rounded-md bg-Dark py-7 px-4">
                     <Label class="mb-3 h-1/3">Контакты</Label>
 
-                    <div v-if="profile.profile.description" class="flex justify-center items-center text-base h-2/3">
-                        {{ profile.profile.description }}
+                    <div v-if="profile.profile.contacts.length > 0" class="flex justify-center items-center text-base h-2/3">
+                        <ContactBtn
+                            v-for="contact in profile.profile.contacts"
+                            :key="contact.id"
+                            :arr="{value: false, has: false, link: 'https://discord.com/users/' + contact.contact_id, name: contact.name}">
+                            <Gamepad2></Gamepad2>
+                        </ContactBtn>
                     </div>
                     <div v-else class="flex justify-center items-center text-Dark-m text-base font-bold h-2/3">
-                        не указано
+                        не добавлены
                     </div>
                 </div>
             </div>
@@ -119,8 +124,9 @@
 <script>
 import MenuButton from '../../elements/menu/Button';
 import Label from '../../elements/Label';
+import ContactBtn from '../../elements/ContactButton';
 import CardProfileGame from '../../components/card/profile/Game';
-import {Edit} from 'lucide-vue';
+import {Edit, Gamepad2} from 'lucide-vue';
 
 export default {
     name: "show",
@@ -130,6 +136,8 @@ export default {
         Edit,
         Label,
         CardProfileGame,
+        ContactBtn,
+        Gamepad2
     },
 
     data(){

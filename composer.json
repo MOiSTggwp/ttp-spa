@@ -11,9 +11,11 @@
         "laravel-lang/lang": "~7.0",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
+        "laravel/socialite": "^5.3",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.4",
-        "mallardduck/blade-lucide-icons": "^1.4"
+        "mallardduck/blade-lucide-icons": "^1.4",
+        "socialiteproviders/discord": "^4.1"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
