@@ -1,4 +1,4 @@
-const router = require("./router");
+const router = require("./router/router");
 
 window._ = require('lodash');
 
@@ -19,15 +19,14 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.withCredentials = true;
 
 window.axios.interceptors.response.use({}, error => {
-
     if (error.response.status === 401 || error.response.status === 419) {
         const token = localStorage.getItem('token');
-
         if(token) {
             localStorage.removeItem('token');
         }
-
-        router.push({ name: 'home' });
+        if(window.location.pathname !== '/'){
+            router.push({ name: 'home' }).catch(err=>{});
+        }
         // window.axios.post('/logout').then(res => {
         //     if(token) {
         //         localStorage.removeItem('token');
@@ -35,9 +34,7 @@ window.axios.interceptors.response.use({}, error => {
         //     router.push({ name: 'home' });
         // });
     }
-
     return Promise.reject(error);
-
 });
 
 /**

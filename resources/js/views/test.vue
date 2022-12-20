@@ -1,12 +1,17 @@
 <template>
  <div>
-     test
+     <router-view></router-view>
  </div>
 </template>
 
 <script>
+import Button from '../UI/lib/Button/Button'
+import Input from "../UI/Input";
 export default {
-    name: "test"
+    name: "test",
+    components: {},
+
+    computed: {Button, Input}
 }
 </script>
 

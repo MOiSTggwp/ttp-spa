@@ -11,12 +11,18 @@ $Dark: #23262F;
 $Dark-m: #484C56;
 $Info: #3772FF;
 
+//a:hover{
+//    color: transparent;
+//}
+//html {
+//    overflow-y: overlay;
+//}
 /* полоса прокрутки (скроллбар) */
 ::-webkit-scrollbar {
-    width: 12px; /* ширина для вертикального скролла */
+    width: 8px; /* ширина для вертикального скролла */
     height: 8px; /* высота для горизонтального скролла */
     background-color: $Dark;
-    border: 1px solid $Dark-m;
+    //border: 1px solid $Dark-m;
 }
 
 /* ползунок скроллбара */
@@ -25,6 +31,7 @@ $Info: #3772FF;
     border-radius: 0;
     border: 1px solid $Dark-m;
     box-shadow: inset 1px 1px 10px $Dark-m;
+    border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -34,6 +41,7 @@ $Info: #3772FF;
 /* Стрелки */
 
 ::-webkit-scrollbar-button:vertical:start:decrement {
+    display: none;
     background:
         linear-gradient(120deg, $Dark 40%, rgba(0, 0, 0, 0) 41%),
         linear-gradient(240deg, $Dark 40%, rgba(0, 0, 0, 0) 41%),
@@ -51,6 +59,7 @@ $Info: #3772FF;
 }
 
 ::-webkit-scrollbar-button:vertical:end:increment {
+    display: none;
     background:
         linear-gradient(300deg, $Dark 40%, rgba(0, 0, 0, 0) 41%),
         linear-gradient(60deg, $Dark 40%, rgba(0, 0, 0, 0) 41%),

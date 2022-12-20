@@ -26,7 +26,8 @@ class EditRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'min:3', 'max:15'],
-            'img' => ['nullable', 'image', 'max:512'],
+            'img' => ['nullable', 'string'],
+            'img_edit' => ['nullable', 'json'],
             'date' => ['nullable', 'date', function($attribute, $value, $fail) {
                 $val = Carbon::createFromFormat('Y-m-d', $value);
                 $min = Carbon::now();
@@ -44,7 +45,7 @@ class EditRequest extends FormRequest
             }],
             'floor' => ['required', 'numeric', 'min:0', 'max:1'],
             'description' => ['nullable', 'string', 'max:250'],
-            'games' => ['nullable', 'array', 'max:4']
+            'games' => ['nullable', 'array']
         ];
     }
 }

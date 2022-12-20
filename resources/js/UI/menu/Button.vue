@@ -3,7 +3,7 @@
         active-class="!shadow-md !bg-opacity-100 !text-Info"
         class="bg-Dark-m bg-opacity-60 shadow-sm flex flex-col p-3 rounded-md justify-center items-center text-Dark-l font-bold
                 hover:shadow-md hover:bg-opacity-100 hover:text-Info active:text-Done transition-all duration-500"
-        :to="{ name: link }">
+        :to="{ name: link }" exact>
         <div class="h-4/5 flex justify-center items-center">
             <slot></slot>
         </div>

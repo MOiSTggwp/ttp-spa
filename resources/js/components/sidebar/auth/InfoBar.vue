@@ -1,6 +1,6 @@
 <template>
     <div class="text-Dark-m">
-        <div class="flex items-center space-x-2">
+        <div v-if="user" class="flex items-center space-x-2">
             <div class="flex text-Warn-m text-sm items-center space-x-1">
                 <Coins class="w-[20px] h-[20px]"></Coins>
                 <div>
@@ -16,17 +16,19 @@
             </Link>
 
             <router-link :to="{ name: 'users.show', params: { id: user.id }}">
-                <div class="w-10 h-10 rounded-md bg-gray-100 border-2 border-Dark-m">
-
+                <div class="w-10 h-10 rounded-md bg-Dark-m/20 border-2 border-Dark-m">
+                    <img v-if="user.profile" class="w-full h-full rounded-md" :src="user.profile.img_url" :alt="user.name"/>
                 </div>
             </router-link>
         </div>
+        <div v-else></div>
     </div>
 </template>
 
 <script>
-import Link from '../../../elements/Link';
+import Link from '../../../UI/Link';
 import {Mail, Book, Coins} from 'lucide-vue';
+import {mapGetters} from 'vuex';
 
 export default {
     name: "InfoBar",
@@ -38,24 +40,10 @@ export default {
         Coins,
     },
 
-    data() {
-        return {
-            user: [],
-        }
-    },
-
-    mounted() {
-        this.auth();
-    },
-
-    methods: {
-        auth() {
-            axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.get('/api/user').then(res => {
-                    this.user = res.data;
-                });
-            });
-        }
+    computed: {
+        ...mapGetters({
+            user: 'GET_USER'
+        })
     },
 }
 </script>

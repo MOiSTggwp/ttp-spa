@@ -1,51 +1,35 @@
 <template>
     <div class="px-3 pt-3">
-        <Alert @close="alertClose" :arr="{ type: this.type , errors: this.errors}"></Alert>
-
-        <Label class="mb-6">Авторизация</Label>
-
-        <div class="grid grid-cols-1 gap-4">
-            <Input @res="resEmail" :arr="{ type: 'email', id: 'email', text: 'Введите Email', error: this.errors.email}">
+        <U-Title h="7">Авторизация</U-Title>
+        <div class="grid grid-cols-1 gap-4 mt-6">
+            <U-Input @res="resEmail" type="email" id="email" text="Введите Email" :error="this.errors.map(i => i.name === 'email')[0]">
                 <AtSign></AtSign>
-            </Input>
-
-            <Input @res="resPassword" :arr="{ type: 'password', id: 'password', text: 'Введите Пароль', error: this.errors.password}">
+            </U-Input>
+            <U-Input @res="resPassword" type="password" id="password" text="Введите Пароль" :error="this.errors.map(i => i.name === 'password')[0]">
                 <Lock></Lock>
-            </Input>
-
-            <Checkbox @res="resRemember" :arr="{ name: 'remember', id: 'remember', title: 'Запомнить?', y: 'да', n: 'нет' }"></Checkbox>
-
-            <Button @click="login" type="button" value="login" :arr="{ text:'Войти' }">
+            </U-Input>
+            <U-Checkbox @res="resRemember" :data="[{id: 1, name: 'Запомнить?'}]" type="checkbox"></U-Checkbox>
+            <U-Button @click="login" text="Войти" :tip="false">
                 <LogIn></LogIn>
-            </Button>
+            </U-Button>
         </div>
     </div>
 </template>
 
 <script>
-import Input from '../../../elements/Input';
-import Label from '../../../elements/Label';
-import Button from '../../../elements/Button';
-import Alert from '../../../elements/Alert';
-import Checkbox from '../../../elements/Checkbox';
 import {AtSign, Lock, LogIn} from 'lucide-vue';
+import {mapActions, mapGetters} from 'vuex';
 
 export default {
     name: "Login",
-
     components: {
-        Input,
-        Label,
-        Button,
-        Alert,
         AtSign,
         Lock,
         LogIn,
-        Checkbox,
     },
-
     data() {
         return {
+            ...mapGetters(['GET_ALERTS']),
             email: '',
             password: '',
             remember: false,
@@ -54,8 +38,8 @@ export default {
             msg: '',
         }
     },
-
     methods: {
+        ...mapActions(['SET_ALERT']),
         login() {
             axios.get('/sanctum/csrf-cookie').then(response => {
                 axios.post('/login', {
@@ -66,34 +50,36 @@ export default {
                     localStorage.setItem('token', res.config.headers['X-XSRF-TOKEN']);
                     this.token();
                 }).catch(err => {
-                    this.errors = err.response.data.errors;
-                    this.type = 'error';
-                    this.msg = 'Вход не выполнен, проверьте введенные данные.';
+                    for(let item in err.response.data.errors) {
+                        this.SET_ALERT({
+                            name: item,
+                            type: 'error',
+                            massage: err.response.data.errors[item][0],
+                            show: true,
+                            button: true
+                        });
+                        this.errors = this.GET_ALERTS();
+                    }
                 });
             });
         },
-
         resEmail(r) {
-            this.email = r[0];
+            this.email = r;
         },
-
         resPassword(r) {
-            this.password = r[0];
+            this.password = r;
         },
-
         resRemember(r) {
-            this.remember = r[0];
+            this.remember = r;
         },
-
         alertClose() {
             this.type = '';
             this.errors = [];
         },
-
         token() {
             this.$emit('token');
         }
-    }
+    },
 }
 </script>
 

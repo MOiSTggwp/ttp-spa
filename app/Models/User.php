@@ -56,4 +56,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Contact::class);
     }
+
+    public function avatar(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(ColorElementUser::class);
+    }
+
+    public function avatarElements(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(ColorElementUser::class, 'color_element_users');
+    }
 }

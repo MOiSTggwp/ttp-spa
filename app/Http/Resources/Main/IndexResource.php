@@ -24,7 +24,7 @@ class IndexResource extends JsonResource
                 'email' => $this->email,
                 'profile' => ShowResource::make($this->profile),
             ],
-            'games' => GamesResource::collection(Game::all()->sortBy('name')),
+//            'games' => GamesResource::collection(Game::all()->sortBy('name')),
         ];
     }
 }

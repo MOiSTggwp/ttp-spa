@@ -1,12 +1,13 @@
 <template>
     <div>
-        home
+        123
     </div>
 </template>
 
 <script>
+
 export default {
-    name: "index"
+    name: "index",
 }
 </script>
 

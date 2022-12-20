@@ -14,12 +14,12 @@
         <div class="border-t opacity-10 mb-3"></div>
 
         <div class="pb-3 px-3" v-if="!auth">
-            <Button @click="menuType = 'login'" v-if="menuType !== 'login'" :arr="{ text: 'Войти' }">
+            <U-Button @click="menuType = 'login'" v-if="menuType !== 'login'" text="Войти" :tip="false">
                 <LogIn></LogIn>
-            </Button>
-            <Button @click="menuType = 'registration'" v-if="menuType === 'login'" :arr="{ text: 'Регистрация' }">
+            </U-Button>
+            <U-Button @click="menuType = 'registration'" v-if="menuType === 'login'" text="Регистрация" :tip="false">
                 <UserCheck></UserCheck>
-            </Button>
+            </U-Button>
         </div>
         <div class="pb-3 px-3 flex justify-between items-center" v-else>
             <Link
@@ -49,8 +49,7 @@
 import MenuMain from './auth/Menu';
 import MenuLogin from './guest/Login';
 import MenuRegistration from './guest/Registration';
-import Button from '../../elements/Button';
-import Link from '../../elements/Link';
+import Link from '../../UI/Link';
 import InfoBar from './auth/InfoBar';
 import {Menu, X, LogIn, UserCheck, ArrowLeft, LogOut} from 'lucide-vue';
 
@@ -63,7 +62,6 @@ export default {
         MenuRegistration,
         Menu,
         X,
-        Button,
         LogIn,
         UserCheck,
         ArrowLeft,
@@ -91,9 +89,9 @@ export default {
 
     methods: {
         sidebarStatus() {
-            this.$emit('sidebarStatus', [
-                this.open
-            ]);
+            let sidebar = localStorage.getItem('sidebar') === 'true' ? this.open = true : this.open = false;
+            this.open = sidebar;
+            console.log(this.open, sidebar)
         },
 
         logout() {
@@ -115,7 +113,11 @@ export default {
 
     watch: {
         open() {
-            this.sidebarStatus();
+            this.$emit('sidebarStatus', [
+                this.open
+            ]);
+            localStorage.removeItem('sidebar');
+            localStorage.setItem('sidebar', this.open);
         }
     }
 }

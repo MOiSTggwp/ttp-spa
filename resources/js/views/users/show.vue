@@ -18,11 +18,12 @@
 
             <div class="w-full grid grid-cols-1 sm:grid-cols-11 md:grid-cols-5 lg:grid-cols-10 xl:grid-cols-9 2xl:grid-cols-5 gap-6 justify-center items-center">
 
-                <div class="w-full col-span-1 sm:col-span-5 md:col-span-2 lg:col-span-3 xl:col-span-2 2xl:col-span-1 flex justify-center">
-                    <label class="w-[280px] sm:w-full h-[240px] shadow-md shadow-Dark/[98%] rounded-md bg-Dark cursor-pointer group">
-                        <img v-if="show_img" class="w-full h-full rounded-md object-cover" :src="show_img" alt="">
-                    </label>
+                <div class="w-full h-[240px] shadow-md shadow-Dark/[98%] rounded-md bg-Dark col-span-1 sm:col-span-5 md:col-span-2 lg:col-span-3 xl:col-span-2 2xl:col-span-1 flex justify-center">
+<!--                    <label class="w-[240px] sm:w-full h-[240px] shadow-md shadow-Dark/[98%] rounded-md bg-Dark cursor-pointer group">-->
+                        <img class="w-full h-full rounded-md" :src="profile.profile.img_url" :alt="profile.name"/>
+<!--                    </label>-->
                 </div>
+
 
                 <div class="shadow-md shadow-Dark/[98%] rounded-md bg-Dark w-full col-span-1 sm:col-span-6 md:col-span-3 lg:col-span-7 xl:col-span-7 2xl:col-span-4 flex justify-center">
 
@@ -55,7 +56,7 @@
                                     не указан
                                 </div>
 
-                                <div v-if="profile.profile.floor">
+                                <div v-if="profile.profile.floor_text">
                                     {{ profile.profile.floor_text }}
                                 </div>
                                 <div v-else class="text-base text-Dark-m">
@@ -117,16 +118,16 @@
                 не выбраны
             </div>
         </div>
-
     </div>
 </template>
 
 <script>
-import MenuButton from '../../elements/menu/Button';
-import Label from '../../elements/Label';
-import ContactBtn from '../../elements/ContactButton';
+import MenuButton from '../../UI/menu/Button';
+import Label from '../../UI/Label';
+import ContactBtn from '../../UI/ContactButton';
 import CardProfileGame from '../../components/card/profile/Game';
 import {Edit, Gamepad2} from 'lucide-vue';
+import {mapActions, mapGetters} from 'vuex';
 
 export default {
     name: "show",
@@ -142,47 +143,29 @@ export default {
 
     data(){
         return {
-            user: [],
             profile: null,
-            show_img: null,
         }
     },
 
     mounted() {
-        this.auth();
         this.getProfile();
     },
 
+    computed: {
+        ...mapGetters({
+            user: 'GET_USER'
+        })
+    },
+
     methods: {
-        auth() {
-            console.log('auth')
-            axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.get(`/api/user`).then(res => {
-                    this.user = res.data;
-                });
-            });
-        },
+        ...mapActions(['GET_PROFILE']),
 
         getProfile() {
-            console.log('getProfile')
-            axios.get('/sanctum/csrf-cookie').then(response => {
-                axios.get(`/api/users/${this.$route.params.id}`).then(res => {
-                    if(res.data.data) {
-                        this.profile = res.data.data;
-                        this.showFile(res.data.data);
-                    } else {
-                        this.$router.push({ name: 'home'});
-                    }
-                });
+            this.GET_PROFILE(this.$route.params.id).then(r => {
+                this.profile = r;
+            }).catch(e => {
+                this.$router.push({ name: 'home'});
             });
-        },
-
-        showFile(data) {
-            if (data.profile && data.profile.img_url) {
-                this.show_img = data.profile.img_url;
-            } else {
-                this.show_img = null;
-            }
         },
     },
 

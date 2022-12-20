@@ -10,7 +10,7 @@
 
 </head>
 <body>
-<div id="app">
+<div id="app" class="bg-Dark bg-opacity-[98%]">
     @yield('content')
 </div>
 

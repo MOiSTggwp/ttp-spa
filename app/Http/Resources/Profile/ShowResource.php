@@ -48,7 +48,7 @@ class ShowResource extends JsonResource
             'floor_text' => $this->floor === 1 ? 'Мужской' : 'Женский',
             'description' => $this->description,
             'games' => $games,
-            'contacts' => $contacts,
+            'contacts' => $contacts
         ];
     }
 }

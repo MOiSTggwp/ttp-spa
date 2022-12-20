@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Profile\Edit;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\EditRequest;
+use App\Models\ColorElementUser;
 use App\Models\Game;
 use App\Models\Profile;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\File;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Resources\Users\ShowResource;
@@ -38,13 +40,13 @@ class EditController extends Controller
         if(\Arr::has($data, 'img')) {
             $img = $data['img'];
 
-            $img_name = md5(Carbon::now() . '_' . $img->getClientOriginalName() . '.' . $img->getClientOriginalExtension());
+            $img_name = Carbon::now()->format('d-m-Y_H-i-s') . '_' . $user->id . '.svg';
 
             if($profile) {
-                Storage::disk('public')->delete($profile->img_path);
+                Storage::disk('public')->delete('images/' . $profile->img_path);
             }
 
-            $file_path = Storage::disk('public')->putFileAs('/images', $img, $img_name);
+            $file_path = Storage::disk('public')->put('images/' . $img_name, $img);
         }
 
         if(!$profile)
@@ -57,8 +59,8 @@ class EditController extends Controller
 
         $profile->floor = $data['floor'];
         if(\Arr::has($data, 'img')) {
-            $profile->img_path = $file_path;
-            $profile->img_url = url('/storage/' . $file_path);
+            $profile->img_path = $img_name;
+            $profile->img_url = url('/storage/images/' . $img_name);
         }
 
         if(\Arr::has($data, 'description'))
@@ -70,6 +72,15 @@ class EditController extends Controller
             $user->games()->sync($data['games']);
         } else {
             $user->games()->sync([]);
+        }
+
+        if(\Arr::has($data, 'img_edit')) {
+            collect(json_decode($data['img_edit'], true))->map(function ($i) use ($user) {
+                $i['user_id'] = $user->id;
+                $user->avatar()->save(new ColorElementUser($i));
+                return $i;
+            });
+
         }
 
         if(Arr::has($data, 'name')) {
